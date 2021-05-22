@@ -1,0 +1,89 @@
+ {% extends 'base.html' %}
+ {% load static %}
+ {% block content %}
+
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('{% static "assets/img/home-bg.jpg" %}')">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        <div class="site-heading">
+                            <h1>Aysel Blog</h1>
+                            <span class="subheading">Daily Tech News</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+       <!-- <div class="container"> 
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="post-preview">
+                        <a href="{% static 'post.html' %}">
+                            <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
+                            <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#!">Start Bootstrap</a>
+                            on September 24, 2021
+                        </p>
+                    </div>
+                <hr /> -->
+                   
+                  {%  for post in object_list %}
+
+
+
+                    <div class="post-preview">
+                        <a href="{% url 'post' post.pk %}">
+                            <h2 class="post-title">{{ post.title}}</h2>
+                            <h3 class="post-subtitle">{{ post.subtitle}}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#!">{{post.author}}</a>
+                           on {{post.date}}
+                        </p>
+                    </div>
+                    <hr />
+             {%  endfor %} 
+
+
+                    <!-- Pager-->
+                    <div class="clearfix"> 
+
+                     {% if is_paginated %}
+                        {% if page_obj.number == 1 %}
+                            <a class="btn btn-outline-info float-rigt" href="?page=2">Older Posts &rarr;</a>
+                        {% endif %}   
+                        {% if page_obj.has_previous %}
+                            <a class="btn btn-outline-info" href="?page={{ page_obj.previous_page_number }}"> Previous &lsaquo;</a>
+                        {% endif %} 
+
+                        {% for  num in page_obj.paginator.page_range %}
+                            {%  if page_obj.number == num and page_obj.number != 1 %}
+                                <a class="btn btn-outline-info" href="?page={{ num }}">{{ num }}</a>
+                            {% endif %} 
+                        {% endfor %}       
+
+
+                        {% if page_obj.has_next and page_obj.number != 1   %}
+                            <a class="btn btn-outline-info" href="?page={{ page_obj.next_page_number}}">Next &rsaquo;</a>
+                           
+                        {% endif %} 
+                       
+
+
+
+
+                     {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    
+  {% endblock content %}
